@@ -16,19 +16,31 @@
 
 
 {% endblock %}
+
 {% block sidebar %}
   {{ block.super }}
-
-  {% if perms.catalog.change_author or perms.catalog.delete_author %}
-  <hr>
-  <ul class="sidebar-nav">
-    {% if perms.catalog.change_author %}
-      <li><a href="{% url 'author-update' author.id %}">Update author</a></li>
-    {% endif %}
-    {% if not author.book_set.all and perms.catalog.delete_author %}
-      <li><a href="{% url 'author-delete' author.id %}">Delete author</a></li>
-    {% endif %}
-    </ul>
-  {% endif %}
-
+    {% if perms.catalog.change_author or perms.catalog.delete_author %}        
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          {% if perms.catalog.change_author %}
+            <li class="nav-item">
+              <a href="{% url 'author-update' author.id %}" class="nav-link text-white">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                Update Author
+              </a>
+            </li>
+          {% endif %}
+          {% if not author.book_set.all and perms.catalog.delete_author %}
+            <li>
+              <a href="{% url 'author-delete' author.id %}" class="nav-link text-white">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                Delete Author
+              </a>
+            </li>
+          {% endif %}
+        <hr>
+        </ul>
+      </div>
+    {%endif %}
 {% endblock %}

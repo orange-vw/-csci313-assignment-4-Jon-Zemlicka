@@ -28,19 +28,31 @@
   </div>
 {% endblock %}
 
+
 {% block sidebar %}
   {{ block.super }}
-
-  {% if perms.catalog.change_book or perms.catalog.delete_book %}
-  <hr>
-  <ul class="sidebar-nav">
-    {% if perms.catalog.change_book %}
-      <li><a href="{% url 'book-update' book.id %}">Update Book</a></li>
-    {% endif %}
-    {% if not book.bookinstance_set.all and perms.catalog.delete_book %}
-      <li><a href="{% url 'book-delete' book.id %}">Delete Book</a></li>
-    {% endif %}
-    </ul>
-  {% endif %}
-
+    {% if perms.catalog.change_book or perms.catalog.delete_book %}   
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          {% if perms.catalog.change_book %}
+            <li class="nav-item">
+              <li><a href="{% url 'book-update' book.id %}" class="nav-link text-white">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                Update Book
+              </a>
+            </li>
+          {% endif %}
+          {% if not book.bookinstance_set.all and perms.catalog.delete_book %}
+            <li>
+              <a href="{% url 'book-delete' book.id %}" class="nav-link text-white">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                Delete Book
+              </a>
+            </li>
+          {% endif %}
+        <hr>
+        </ul>
+      </div>
+    {%endif %}
 {% endblock %}
