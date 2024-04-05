@@ -18,47 +18,95 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-2">
+          {% block topbar%}
+            
+          {% endblock %}
           {% block sidebar %}
-            <ul class="sidebar-nav">
-              <li><a href="{% url 'index' %}">Home</a></li>
-              <li><a href="{% url 'books' %}">All books</a></li>
-              <li><a href="{% url 'authors' %}">All authors</a></li>
-            </ul>
-            <ul class="sidebar-nav">
-              …
-             {% if user.is_authenticated %}
-               <li>User: {{ user.get_username }}</li>
-               <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
-               <li>
-                 <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
-                   {% csrf_token %}
-                   <button type="submit" class="btn btn-link">Logout</button>
-                 </form>
-               </li>
-               {% if user.is_staff %}
-                <hr>
-                <ul class="sidebar-nav">
-                <li>Staff</li>
-                  <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
-                {% if perms.catalog.add_author %}
-                  <li><a href="{% url 'author-create' %}">Create author</a></li>
-                {% endif %}
-                {% if perms.catalog.add_book %}
-                  <li><a href="{% url 'book-create' %}">Create Book</a></li>
-                {% endif %}
-                </ul>
-                {% endif %}
 
-             {% else %}
-               <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
-             {% endif %}
-              …
+          <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+            <a href="{% url 'index' %}" class="nav-link text-white"><center>
+              <span class="fs-4">The Best Library Known to Man</span></center>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <a href="{% url 'index' %}" class="nav-link text-white">
+                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'books' %}" class="nav-link text-white">
+                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                  All books
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'authors' %}" class="nav-link text-white">
+                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+                  All Authors
+                </a>
+              </li>
+            <hr>
+            {% if user.is_authenticated %}
+              <li class="fs-4" ><svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                User Resources
+              </li>
+              <li class="nav-link text-white"><svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                User: {{ user.get_username }}
+              </li>
+              <li>
+                <a href="{% url 'my-borrowed' %}" class="nav-link text-white">
+                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                  My Borrowed Books
+                </a>
+              </li>
+              <li>
+                <form id="logout-form" method="post" action="{% url 'admin:logout' %}" class="nav-link text-white">
+                  {% csrf_token %}
+                  <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+                  <button type="submit" class="btn text-white" >Logout</button>
+                </form>
+              </li>
+
+            <hr>
+            {% if user.is_staff %}
+            <li class="fs-4" ><svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+              Staff Resources
+            </li>
+            <li>
+              <a href="{% url 'all-borrowed' %}" class="nav-link text-white">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                All Borrowed Books
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'author-create' %}" class="nav-link text-white"> 
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                Create Author
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'book-create' %}" class="nav-link text-white"> 
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                Create Book
+              </a>
+            </li>
+            {% endif %}
+          {% else %}
+            <li><a href="{% url 'login' %}?next={{ request.path }}" class="nav-link text-white">
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+              Login
+            </a></li>
+          {% endif %}
             </ul>
-          
+          </div>
           {% endblock %}
         </div>
         <div class="col-sm-10 ">{% block content %}{% endblock %}
-          {% block pagination %}
+    {% block pagination %}
     {% if is_paginated %}
         <div class="pagination">
             <span class="page-links">
@@ -81,3 +129,5 @@
     </div>
   </body>
 </html>
+
+
